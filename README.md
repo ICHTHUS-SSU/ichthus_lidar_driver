@@ -1,6 +1,5 @@
 # Ichthus Lidar Driver
-Ichthus Lidar Driver is the package designed for Ouster-1-64 model or Velodyne Puck 16 model, providing function to merge point clouds from multiple lidars.
-
+Ichthus Lidar Driver is a multi-lidar fusion driver designed for an autonomous vehicle named Ichthus, which was equipped with 3 lidars on the roof, i.e., Ouster-1-64 (front), Velodyne 16 (left), and Velodyne 16 (right). The driver receives point clouds from the three lidars and produces a merged cloud as output.
 
 ![](doc/images/ichthus_lidar_driver.png)
 ---
@@ -15,14 +14,10 @@ Ichthus Lidar Driver is the package designed for Ouster-1-64 model or Velodyne P
 ---
 
 ## Overview
-* Ichthus Lidar Driver consists of nodelets (Frontend, Midend, Backend) as shown in the following figure.
-* Frontend receives the packet from all connected lidars and forwards it to Midend.
-* Midend exists for each type of lidar. Each Midend receives packets from Frontend that correspond to its lidar type and stores them in the buffer.
-* It forwards packets stored in the buffer to Backend at a set interval.
-* Backend converts the packets(point cloud) received from each Midend into one common coordinate system and merges it all.
-
-
-
+* The driver is written as a ROS nodelet that includes three different types of ROS nodes. They are frontend, midend, and backend nodes, as shown in the following figure. Thanks to the nodelet design, all ROS messages exchanged between the nodes are zero-copied.
+* The single frontend has two modes of operations. In socket mode, it receives lidar packes on the fly from UDP sockets connected to the lidars and publishes them to the midend nodes. In pcap play mode, it reads lidar packes from a pre-recorded pcap file which contains all packets issued from the lidars and publishes them to the midend nodes.
+* Each midend node, created for each lidar, receives packets from the frontend until they form a full 360-degree rotation of the lidar, and publishes a point cloud to a designated backend node. In the midend, the point cloud is rendered in the coordinate of the lidar sensor itself. If you want to add other lidar models than the one used here, you simply need to add the packet parsing logic of the new lidar model into the midend node.
+* Each backend node, created for a possible combination of the lidars, receives the point clouds from the associated midends and merges them in the coordinate of the vehicle itself. Then, it produces the merged cloud as output. 
 
 ![](doc/images/driver.png)
 
@@ -35,8 +30,8 @@ Ichthus Lidar Driver is the package designed for Ouster-1-64 model or Velodyne P
 |Syntax|Description|
 -------|--------
 |`lidar_num`|number of lidars used|
-|`pcap_file`|pcap file used to replay|
-|`pcap_wait_factor`|scale factor of timer wait, which emulates the interarrival times of lidar msgs|
+|`pcap_file`|pcap file used in pcap play mode|
+|`pcap_wait_factor`|scale factor of timer wait, which emulates the interarrival times of lidar msgs in pcap play mode|
 |`mode_*`|lidar model selection: 0 means VLP16 (Velodyne Puck 16 model), 1 means OSI64 (Ouster-1-64 model)|
 |`ip_add_*`|ip address of each lidar|
 
@@ -192,9 +187,8 @@ catkin_make
 ---
 
 ## How to launch
-1. Modify the settings files of frontend, middleend, and backend to suit the user's environment.
-2. Add nodes of Midend of launch file to correspond to lidars you use.
-3. Execute Ichthus Lidar Driver.
+1. Modify the settings files of frontend, midend, and backend nodes if needed. Do not forget to define a midend node for every lidar you use.
+2. Run the ichthus lidar driver as follows.
 
 `roslaunch ichthus_lidar_driver ichthus_lidar_driver.launch`
 
