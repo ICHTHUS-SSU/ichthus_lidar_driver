@@ -1,0 +1,30 @@
+#input topic info, (yaw,pitch,roll in degree/ x,y,z in meter)
+# in_cloud1: # Front
+#   topic_name: /vlp1/points_raw
+#   pose_yaw: 0
+#   pose_pitch: 0
+#   pose_roll: 0
+#   pose_x: 0
+#   pose_y: 0
+#   pose_z: 0.0045
+in_cloud1: # Left
+  topic_name: /vlp1/points_raw
+  pose_yaw: 90
+  pose_pitch: 15.2
+  pose_roll: 0
+  pose_x: 0
+  pose_y: 0.61772
+  pose_z: -0.20120
+# in_cloud3: # Right
+#   topic_name: /vlp3/points_raw
+#   pose_yaw: -90
+#   pose_pitch: 15.2
+#   pose_roll: 0
+#   pose_x: 0
+#   pose_y: -0.61772
+#   pose_z: -0.20120
+
+out_cloud:
+  topic_name: points_raw
+  frame_id: velodyne
+  rate: 10 # Hz

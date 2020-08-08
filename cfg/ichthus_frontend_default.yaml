@@ -1,0 +1,31 @@
+###
+### number of lidars used
+###
+lidar_num : 3
+
+###
+### pcap file used to replay
+###
+pcap_file: ""
+
+###
+### scale factor of timer wait, which emulates the interarrival times of lidar msgs
+###
+pcap_wait_factor : 0.6
+
+###
+### lidar model selection:
+### 0 means VLP16 (Velodyne Puck 16 model)
+### 1 means OSI64 (Ouster-1-64 model)
+###
+mode_front : 1
+mode_left  : 0
+mode_right : 0
+
+###
+### ip address of each lidar
+###
+ip_add_front : "192.168.1.3"
+ip_add_left  : "192.168.1.202"
+ip_add_right : "192.168.1.203"
+

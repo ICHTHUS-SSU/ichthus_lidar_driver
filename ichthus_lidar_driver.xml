@@ -1,0 +1,17 @@
+<library path="lib/libichthus_lidar_driver"> 
+  <class name="ichthus_lidar_driver/IchthusLidarFront" type="ichthus_lidar_front::IchthusLidarFront" base_class_type="nodelet::Nodelet"> 
+    <description>  
+      IchthusLidarFront. 
+    </description> 
+  </class>
+  <class name="ichthus_lidar_driver/IchthusLidarMid" type="ichthus_lidar_mid::IchthusLidarMid" base_class_type="nodelet::Nodelet"> 
+    <description>  
+      IchthusLidarMid. 
+    </description> 
+  </class> 
+  <class name="ichthus_lidar_driver/IchthusLidarBack" type="ichthus_lidar_back::IchthusLidarBack" base_class_type="nodelet::Nodelet"> 
+    <description>  
+      IchthusLidarBack. 
+    </description> 
+  </class> 
+</library> 

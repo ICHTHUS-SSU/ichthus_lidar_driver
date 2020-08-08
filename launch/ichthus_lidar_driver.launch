@@ -1,0 +1,19 @@
+<launch>
+    <node pkg="nodelet" type="nodelet" name="ichthus_lidar_driver" args="manager" output="screen"/>
+    
+    <rosparam param="frontend" file="$(find ichthus_lidar_driver)/cfg/ichthus_frontend_default.yaml"/>
+    <node pkg="nodelet" type="nodelet" args="load ichthus_lidar_driver/IchthusLidarFront ichthus_lidar_driver" name="frontend" output="screen">
+        <rosparam file="$(find ichthus_lidar_driver)/cfg/ichthus_frontend_default.yaml"/>
+    </node>	 
+    
+    <rosparam param="midend_front" file="$(find ichthus_lidar_driver)/cfg/ichthus_midend_default_1.yaml"/>
+    <node pkg="nodelet" type="nodelet" args="load ichthus_lidar_driver/IchthusLidarMid ichthus_lidar_driver" name="midend_front" output="screen">
+        <rosparam file="$(find ichthus_lidar_driver)/cfg/ichthus_midend_default_1.yaml"/>
+    </node>		  
+
+    <rosparam param="backend" file="$(find ichthus_lidar_driver)/cfg/ichthus_backend_default.yaml"/>
+    <node pkg="nodelet" type="nodelet" args="load ichthus_lidar_driver/IchthusLidarBack ichthus_lidar_driver" name="backend" output="screen">
+        <rosparam file="$(find ichthus_lidar_driver)/cfg/ichthus_backend_default.yaml"/>
+    </node>
+
+</launch>

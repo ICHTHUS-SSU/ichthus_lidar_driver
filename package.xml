@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ichthus_lidar_driver</name>
+  <version>0.9.0</version>
+  <description>The ichthus_lidar_driver package</description>
+  <maintainer email="kim.kanghee@gmail.com">Kanghee Kim</maintainer>
+  <license>Apache 2</license>
+
+  <buildtool_depend>autoware_build_flags</buildtool_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>message_generation</build_depend>
+
+  <depend>roscpp</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+  <depend>pcl_ros</depend>
+  <depend>pcl_conversions</depend>
+  <depend>nodelet</depend>
+
+
+  <exec_depend>message_runtime</exec_depend>
+
+  <export>
+    <nodelet plugin="${prefix}/ichthus_lidar_driver.xml"/>
+  </export>
+</package>

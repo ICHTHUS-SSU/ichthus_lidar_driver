@@ -1,0 +1,9 @@
+calibration_path : "/home/autoware/Autoware/src/autoware/core_perception/ichthus_lidar_driver/cfg/VLP16db.yaml"
+
+## VLP16 : 0, OSI64 : 1 ##
+mode : 0
+
+frame : "velodyne"
+pub_topic: "vlp2/points_raw"
+sub_topic: "left/lidar_msg"
+rate: 10 # Hz
