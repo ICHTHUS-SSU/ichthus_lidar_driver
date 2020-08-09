@@ -1,3 +1,12 @@
+/*
+ *  Copyright (C) 2007 Austin Robot Technology, Patrick Beeson
+ *  Copyright (C) 2009, 2010 Austin Robot Technology, Jack O'Quin
+ *
+ *  License: Modified BSD Software License Agreement
+ *
+ *  $Id$
+ */
+
 #include <ichthus_lidar_driver/common/packet.h>
 
 void get_ip_header(ip_pkt &packet, ip_pkthdr &header)
