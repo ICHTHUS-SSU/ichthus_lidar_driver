@@ -46,7 +46,7 @@ namespace gpu
     checkCudaErrors(cudaMalloc(&d_tf_points, sizeof(pcl::PointXYZINormal) * num_points));
     
     checkCudaErrors(cudaMemcpy(d_tf, h_tf, sizeof(float) * 4 * 4, cudaMemcpyHostToDevice));
-    checkCudaErrors(cudaMemcpy(d_points, h_points, sizeof(pcl::PointXYZI) * num_points, cudaMemcpyHostToDevice));
+    checkCudaErrors(cudaMemcpy(d_points, h_points, sizeof(pcl::PointXYZINormal) * num_points, cudaMemcpyHostToDevice));
 
     if (num_points > 0) 
     {
