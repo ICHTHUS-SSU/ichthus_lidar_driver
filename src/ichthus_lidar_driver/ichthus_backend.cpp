@@ -87,7 +87,7 @@ namespace ichthus_lidar_back
   {
     if (cloud_.empty() == true)
     {
-      ROS_WARN("Output cloud is empty still. [%s]", ros::this_node::getName().c_str());
+      ROS_INFO("Output cloud is still empty. [backend]");
       return;
     }
 
@@ -104,22 +104,24 @@ namespace ichthus_lidar_back
   void IchthusLidarBack::mergeNpub()
   {
     out_cloud_ptr_->cloud_.clear();
-    ros::Time latest_ts = ros::Time(0, 0);
+    ros::Time oldest_ts = ros::Time(0);
     for (int i = 0; i < in_cloud_arr_.size(); i++)
     {
       {
         boost::mutex::scoped_lock lock(in_cloud_arr_[i]->tf_cloud_mutex_);
         pcl::PointCloud<pcl::PointXYZINormal>::Ptr &tf_cloud_ptr = in_cloud_arr_[i]->tf_cloud_ptr_;
+        uint64_t curr_ts_ns = tf_cloud_ptr->header.stamp * 1e3; 
+        
+        if (oldest_ts.toNSec() > curr_ts_ns || oldest_ts.isZero() == true)
+        {
+          oldest_ts.fromNSec(curr_ts_ns);
+        }
 
         out_cloud_ptr_->cloud_ += *tf_cloud_ptr;
-        if (latest_ts.toNSec() < tf_cloud_ptr->header.stamp)
-        {
-          latest_ts.fromNSec(tf_cloud_ptr->header.stamp);
-        }
       }
     }
 
-    out_cloud_ptr_->ts_ = latest_ts;
+    out_cloud_ptr_->ts_ = oldest_ts;
     out_cloud_ptr_->publishCloud();
   }
 

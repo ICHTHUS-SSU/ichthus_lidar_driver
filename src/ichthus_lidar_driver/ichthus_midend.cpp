@@ -63,7 +63,7 @@ namespace ichthus_lidar_mid
       }
       else
       {
-        ROS_INFO("Buffer is empty. [%s]", ros::this_node::getName().c_str());
+        ROS_INFO("Buffer is empty. [midend]");
       }
 
       {
