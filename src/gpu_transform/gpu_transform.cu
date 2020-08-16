@@ -6,18 +6,24 @@ namespace gpu
   {
     int idx = threadIdx.x + blockIdx.x * blockDim.x;
     int stride = blockDim.x * gridDim.x;
-    float x, y, z, intensity;
+    float x, y, z;
 
     for (int i = idx; i < num_points; i += stride) 
     {
       x = in_points[i].x;
       y = in_points[i].y;
       z = in_points[i].z;
-      intensity = in_points[i].intensity;
+    
       out_points[i].x = transform[0 * 4 + 0] * x + transform[0 * 4 + 1] * y + transform[0 * 4 + 2] * z + transform[0 * 4 + 3];
       out_points[i].y = transform[1 * 4 + 0] * x + transform[1 * 4 + 1] * y + transform[1 * 4 + 2] * z + transform[1 * 4 + 3];
       out_points[i].z = transform[2 * 4 + 0] * x + transform[2 * 4 + 1] * y + transform[2 * 4 + 2] * z + transform[2 * 4 + 3];
-      out_points[i].intensity = intensity;
+      out_points[i].intensity = in_points[i].intensity;
+      out_points[i].curvature = in_points[i].curvature;
+      out_points[i].normal_x = in_points[i].normal_x;
+      out_points[i].normal_y = in_points[i].normal_y;
+      out_points[i].normal_z = in_points[i].normal_z;
+      out_points[i].data[3] = in_points[i].data[3];
+      out_points[i].data_n[3] = in_points[i].data_n[3];
     }
   }
 
