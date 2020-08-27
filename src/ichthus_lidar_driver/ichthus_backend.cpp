@@ -56,13 +56,11 @@ namespace ichthus_lidar_back
     Eigen::AngleAxisf roll_angle(ps_.roll_, Eigen::Vector3f::UnitX());
     Eigen::AngleAxisf pitch_angle(ps_.pitch_, Eigen::Vector3f::UnitY());
     Eigen::AngleAxisf yaw_angle(ps_.yaw_, Eigen::Vector3f::UnitZ());
+    Eigen::Affine3f translation(Eigen::Translation3f(ps_.x_, ps_.y_, ps_.z_));
+
+    transform = yaw_angle * pitch_angle * roll_angle;
+    transform = translation * transform;
     
-    transform.rotate(yaw_angle);
-    transform.rotate(pitch_angle);
-    transform.rotate(roll_angle);
-
-    transform.translate(Eigen::Vector3f(ps_.x_, ps_.y_, ps_.z_));
-
     std::cout << "Transform matrix: " << std::endl;
     std::cout << transform.matrix() << std::endl;
 
