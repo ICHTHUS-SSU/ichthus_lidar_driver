@@ -306,8 +306,8 @@ namespace VLP16
                 // point.ts = msg.ts.tv_sec();
                 if (need_update == true)
                 {
-                  sec = (float)(((int)(*vector_msg[i]).ts.sec) % 1000000); //fixed by qjin -> changed type, upper value not needed
-                  usec = (float)(((int)(*vector_msg[i]).ts.nsec) / 1000); //fixed by qjin -> changed type
+                  sec = (float)(((int)*vector_msg[i]).ts.sec % 1000000); //fixed by qjin -> changed type, upper value not needed
+                  usec = (float)(((int)*vector_msg[i]).ts.nsec / 1000); //fixed by qjin -> changed type
                   need_update = false;
                 }
                 point.normal_y = sec;
