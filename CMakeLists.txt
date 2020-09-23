@@ -3,8 +3,8 @@ project(ichthus_lidar_driver)
 
 add_compile_options(-std=c++11)
 
-#find_package(PCL REQUIRED)
-find_package(autoware_build_flags REQUIRED)
+find_package(PCL REQUIRED)
+# find_package(autoware_build_flags REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
 					roscpp
 					sensor_msgs
@@ -71,7 +71,7 @@ add_library(ichthus_lidar_driver
 set(libpcap_LIBRARIES "-lpcap")
 
 find_package(CUDA)
-AW_CHECK_CUDA()
+# AW_CHECK_CUDA()
 if (USE_CUDA)
     message("-- USING ACCELERATED TRANSFORM --")
     message("Version: " ${CUDA_VERSION})
