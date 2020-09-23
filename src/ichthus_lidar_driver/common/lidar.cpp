@@ -306,8 +306,8 @@ namespace VLP16
                 // point.ts = msg.ts.tv_sec();
                 if (need_update == true)
                 {
-                  sec = (*vector_msg[i]).ts.sec;
-                  usec = (*vector_msg[i]).ts.nsec / 1000;
+                  sec = (float)((*vector_msg[i]).ts.sec % 1000000.0); //fixed by qjin -> changed type, upper value not needed
+                  usec = (float)((*vector_msg[i]).ts.nsec / 1000.0); //fixed by qjin -> changed type
                   need_update = false;
                 }
                 point.normal_y = sec;
@@ -451,8 +451,8 @@ namespace OSI64
 
           if (need_update == true)
           {
-            sec = msg.ts.sec;
-            usec = msg.ts.nsec / 1000;
+            sec = (float)(msg.ts.sec % 1000000.0); //fixed by qjin -> changed type, upper value not needed
+            usec = (float)(msg.ts.nsec / 1000.0); //fixed by qjin -> changed type
             need_update = false;
           }
           point.normal_y = sec;
