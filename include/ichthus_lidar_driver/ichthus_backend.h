@@ -19,6 +19,8 @@
 
 #include <ros/ros.h>
 
+#include <ichthus_lidar_driver/common/point_types.h>
+
 // PCL specific includes
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -50,6 +52,7 @@ int quit(char *tag);
 
 namespace ichthus_lidar_back
 {
+  #define PointT pcl::PointXYZICA
 
   boost::mutex mutex_;
 
@@ -81,7 +84,7 @@ namespace ichthus_lidar_back
     ros::Subscriber sub_;
     Eigen::Affine3f transform_;
 
-    pcl::PointCloud<pcl::PointXYZINormal>::Ptr tf_cloud_ptr_;
+    pcl::PointCloud<PointT>::Ptr tf_cloud_ptr_;
 
     boost::mutex tf_cloud_mutex_;
     boost::condition_variable condition_;
@@ -96,7 +99,7 @@ namespace ichthus_lidar_back
     /* public functions */
     void publishCloud();
 
-    pcl::PointCloud<pcl::PointXYZINormal> cloud_;
+    pcl::PointCloud<PointT> cloud_;
     ros::Publisher pub_;
     
     std::string topic_name_;
