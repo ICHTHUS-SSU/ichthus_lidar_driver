@@ -39,7 +39,7 @@ namespace pcl
     EIGEN_MAKE_ALIGNED_OPERATOR_NEW     // ensure proper alignment
   } EIGEN_ALIGN16;
 
-}; // namespace velodyne_pointcloud
+}; 
 
 
 POINT_CLOUD_REGISTER_POINT_STRUCT(pcl::PointXYZICA,
