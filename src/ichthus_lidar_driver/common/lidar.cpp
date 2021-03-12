@@ -684,14 +684,7 @@ namespace OSI64
           uint32_t reflectivity = (p_data->blocks[block].data[k + 1]) & 0x0000ffff;
           point.intensity = reflectivity;
           point.channel = channel_idx;
-          
-          if (!encoder_count)
-            point.azimuth = static_cast<uint32_t>(encoder_ticks_per_rev) / encoder_count;
-          else
-            point.azimuth = 0;
-          
-          // debug
-          std::cout << "point.azimuth: " << point.azimuth << ", (" << encoder_ticks_per_rev << " / " << encoder_count << ")" << std::endl;
+          point.azimuth = p_data->blocks[block].measurement_id;
 
           out_cloud.push_back(point);
         }
