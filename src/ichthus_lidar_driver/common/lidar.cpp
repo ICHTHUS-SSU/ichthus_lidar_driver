@@ -632,6 +632,9 @@ namespace OSI64
           float h_angle = tte.beam_azimuth_angles + h_angle_0;
 
           uint32_t range = (p_data->blocks[block].data[k]) & 0x000fffff;
+
+          if (range == 0) continue;
+
           float r = range / 1000.0; // change unit (mm) to (m)
           point.x = -r * tte.cos_beam_altitude_angles * cosf(h_angle);
           point.y = r * tte.cos_beam_altitude_angles * sinf(h_angle);
@@ -679,6 +682,9 @@ namespace OSI64
           float h_angle = tte.beam_azimuth_angles + h_angle_0;
 
           uint32_t range = (p_data->blocks[block].data[k]) & 0x000fffff;
+
+          if (range == 0) continue;
+
           float r = range / 1000.0; // change unit (mm) to (m)
           point.x = -r * tte.cos_beam_altitude_angles * cosf(h_angle);
           point.y = r * tte.cos_beam_altitude_angles * sinf(h_angle);
