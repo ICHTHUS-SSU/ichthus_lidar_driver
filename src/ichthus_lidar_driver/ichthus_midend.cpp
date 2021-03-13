@@ -25,7 +25,7 @@ namespace ichthus_lidar_mid
 
     while (ros::ok())
     {
-      pcl::PointCloud<pcl::PointXYZINormal> out_cloud;
+      pcl::PointCloud<PointT> out_cloud;
 
       if (param_.mode_ == LIDAR_MODE::VLP16_MODE)
       {
@@ -33,7 +33,6 @@ namespace ichthus_lidar_mid
       }
       else if (param_.mode_ == LIDAR_MODE::OSI64_MODE)
       {
-        
         OSI64::add_OSI64_vector_msg_to_cloud(OSI64_buf_[buf_idx_], out_cloud);
       }
       else

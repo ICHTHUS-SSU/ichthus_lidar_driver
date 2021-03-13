@@ -1,6 +1,7 @@
 #ifndef __LIDAR_H_
 #define __LIDAR_H_
 
+#include <ichthus_lidar_driver/common/point_types.h>
 #include <ichthus_lidar_driver/common/calibration.h>
 #include <ichthus_lidar_driver/common/packet.h>
 #include <ichthus_lidar_driver/VLP16.h>
@@ -81,6 +82,9 @@ namespace VLP16
 
   void add_VLP16_vector_msg_to_cloud(const std::vector<ichthus_lidar_driver::VLP16::ConstPtr> &vector_msg, pcl::PointCloud<pcl::PointXYZINormal>& cloud
 				     ,float* sin_rot_table, float* cos_rot_table, Calibration& calibration);
+
+  void add_VLP16_vector_msg_to_cloud(const std::vector<ichthus_lidar_driver::VLP16::ConstPtr> &vector_msg, pcl::PointCloud<pcl::PointXYZICA> &cloud, float* sin_rot_table, float* cos_rot_table, Calibration& calibration);
+  
   // void add_VLP16_msg_to_cloud(const ichthus_lidar_driver::VLP16 &msg, pcl::PointCloud<PointXYZIR>& cloud);
   void batch_VLP16_msg_to_cloud(const std::vector<ichthus_lidar_driver::VLP16::ConstPtr> &vector_msg, pcl::PointCloud<PointXYZIR>& cloud);
 }
@@ -161,6 +165,7 @@ namespace OSI64
   static bool tables_initialized = init_tables();
 
   void add_OSI64_vector_msg_to_cloud(const std::vector<ichthus_lidar_driver::OSI64ConstPtr> &msgs, pcl::PointCloud<pcl::PointXYZINormal>& out_cloud);
+  void add_OSI64_vector_msg_to_cloud(const std::vector<ichthus_lidar_driver::OSI64ConstPtr> &msgs, pcl::PointCloud<pcl::PointXYZICA>& out_cloud);
 }
 
 #endif

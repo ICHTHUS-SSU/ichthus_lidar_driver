@@ -17,6 +17,8 @@ extern int wait_timer(int timerfd);
 
 namespace ichthus_lidar_mid
 {
+  #define PointT pcl::PointXYZICA
+  
   const float ROTATION_RESOLUTION      =     0.01f;  // [deg]
   const uint16_t ROTATION_MAX_UNITS    =    36000u;  // [deg/100]
   const int NUM_BUFFER                 =         2;  // dual buffer

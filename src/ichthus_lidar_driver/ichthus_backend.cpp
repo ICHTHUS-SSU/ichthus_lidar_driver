@@ -24,7 +24,7 @@ namespace ichthus_lidar_back
   //InputCloud member function
   InputCloud::InputCloud(const pose &p, const std::string &topic, ros::NodeHandle &nh)
   {
-    tf_cloud_ptr_.reset(new pcl::PointCloud<pcl::PointXYZINormal>);
+    tf_cloud_ptr_.reset(new pcl::PointCloud<PointT>);
     ps_ = p;
     topic_name_ = topic;
     transform_ = makeLidarTF();
@@ -33,8 +33,8 @@ namespace ichthus_lidar_back
 
   void InputCloud::cloudCallback(const sensor_msgs::PointCloud2ConstPtr &input)
   {
-    pcl::PointCloud<pcl::PointXYZINormal>::Ptr in_cloud_ptr(new pcl::PointCloud<pcl::PointXYZINormal>);
-    pcl::PointCloud<pcl::PointXYZINormal>::Ptr tf_cloud_ptr(new pcl::PointCloud<pcl::PointXYZINormal>);
+    pcl::PointCloud<PointT>::Ptr in_cloud_ptr(new pcl::PointCloud<PointT>);
+    pcl::PointCloud<PointT>::Ptr tf_cloud_ptr(new pcl::PointCloud<PointT>);
     pcl::fromROSMsg(*input, *in_cloud_ptr);
 
 #ifdef USE_GPU
@@ -107,7 +107,7 @@ namespace ichthus_lidar_back
     {
       {
         boost::mutex::scoped_lock lock(in_cloud_arr_[i]->tf_cloud_mutex_);
-        pcl::PointCloud<pcl::PointXYZINormal>::Ptr &tf_cloud_ptr = in_cloud_arr_[i]->tf_cloud_ptr_;
+        pcl::PointCloud<PointT>::Ptr &tf_cloud_ptr = in_cloud_arr_[i]->tf_cloud_ptr_;
         uint64_t curr_ts_ns = tf_cloud_ptr->header.stamp * 1e3; 
         
         if (oldest_ts.toNSec() > curr_ts_ns || oldest_ts.isZero() == true)
