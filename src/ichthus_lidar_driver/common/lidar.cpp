@@ -553,7 +553,9 @@ namespace OSI64
         //msg_size = osi64_msg.buf.size();
         //osi64_msg.buf.resize(msg_size + pkt_size);
         memcpy(&osi64_msg.buf[osi64_msg.size], pkt_base, pkt_size);
+        // std::cout << "(debugging) pkt_size : " << pkt_size<< std::endl;  
         osi64_msg.size += pkt_size;
+        // std::cout << "(debugging) osi64_msg.size : " << osi64_msg.size<< std::endl;  
         ROS_INFO("get_OSI64_msg() : (pkt_size, offset) = (%u, %d)", pkt_size, offset * 8);
 
 #if 0 // removed by khkim on 20190828
@@ -576,6 +578,7 @@ namespace OSI64
     OSI64_packet *p_data = (OSI64_packet *)&msg.buf;
     if (msg.size != OSI64_MESSAGE_BYTES)
     {
+      // std::cout << "(debugging) msg.size : " << msg.size << std::endl;  
       ROS_INFO("print_OSI64_packet() : wrong msg size!");
       return;
     }
@@ -629,6 +632,9 @@ namespace OSI64
           float h_angle = tte.beam_azimuth_angles + h_angle_0;
 
           uint32_t range = (p_data->blocks[block].data[k]) & 0x000fffff;
+
+          if (range == 0) continue;
+
           float r = range / 1000.0; // change unit (mm) to (m)
           point.x = -r * tte.cos_beam_altitude_angles * cosf(h_angle);
           point.y = r * tte.cos_beam_altitude_angles * sinf(h_angle);
@@ -676,6 +682,9 @@ namespace OSI64
           float h_angle = tte.beam_azimuth_angles + h_angle_0;
 
           uint32_t range = (p_data->blocks[block].data[k]) & 0x000fffff;
+
+          if (range == 0) continue;
+
           float r = range / 1000.0; // change unit (mm) to (m)
           point.x = -r * tte.cos_beam_altitude_angles * cosf(h_angle);
           point.y = r * tte.cos_beam_altitude_angles * sinf(h_angle);

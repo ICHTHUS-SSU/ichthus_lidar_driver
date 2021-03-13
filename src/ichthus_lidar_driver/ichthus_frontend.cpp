@@ -17,7 +17,7 @@
 #include <ichthus_lidar_driver/ichthus_frontend.h>
 #include <ichthus_lidar_driver/common/util.h>
 
-#define ROS_INFO(...) ((void)0) //strip out PRINT instructions from code
+// #define ROS_INFO(...) ((void)0) //strip out PRINT instructions from code
 #define TIMERFD_ENABLED 1
 
 namespace ichthus_lidar_front
@@ -35,6 +35,8 @@ namespace ichthus_lidar_front
 		struct itimerspec timeout;
 		bool unknown_lidar;
 		uint32_t pkt_ts1, pkt_ts2;
+		ichthus_lidar_driver::OSI64 OSI_msg;
+		ichthus_lidar_driver::VLP16 VLP_msg;
 
 		if (!socket_flag && (ret = read_pcap_file(pcap_fd, ip_pkt)) == true)
 		{
@@ -72,7 +74,7 @@ namespace ichthus_lidar_front
 					std::cout << ip_pkt.size << std::endl;
 
 					pkt_ts2 = ip_pkt.ts.tv_sec * 1000000 + ip_pkt.ts.tv_usec;
-					// ROS_WARN("pkt_ts1 : %u", pkt_ts1);
+					// ROS_WARN("pkt_ts1 : %u", pkt_ts1);osi64_msg.size
 					// ROS_WARN("pkt_ts2 : %u", pkt_ts2);
 					iat = pkt_ts2 - pkt_ts1;
 					if (iat < 0)
@@ -88,7 +90,7 @@ namespace ichthus_lidar_front
 #endif
 					if (iat == 0)
 						iat = 1;
-					//ROS_ERROR("timetoarrival : %d", iat);
+					// ROS_ERROR("timetoarrival : %d", iat);
 				}
 				get_ip_header(ip_pkt, ip_hdr);
 				sender_address.sin_addr.s_addr = ip_hdr.src_addr;
@@ -121,7 +123,7 @@ namespace ichthus_lidar_front
 			{
 				//if (ip_pkt.size != 1206)
 				//ROS_WARN("%s\t%d", param.ip_addr[i], ip_pkt.size); // by khkim on 20200527
-				ichthus_lidar_driver::VLP16 VLP_msg;
+				
 
 				VLP16::get_VLP16_msg(socket_flag, ip_pkt, VLP_msg);
 				pub_lidar_data[mode_index].publish(VLP_msg);
@@ -130,7 +132,6 @@ namespace ichthus_lidar_front
 			else if (!unknown_lidar && param.mode[mode_index] == LIDAR_MODE::OSI64_MODE)
 			{
 				ROS_INFO("%s\t%d", param.ip_addr[i].c_str(), ip_pkt.size);
-				ichthus_lidar_driver::OSI64 OSI_msg;
 				OSI64::get_OSI64_msg(socket_flag, ip_pkt, OSI_msg, frag_offset);
 
 				if (OSI_msg.size == OSI64_MESSAGE_BYTES)
@@ -206,8 +207,10 @@ namespace ichthus_lidar_front
 		else
 		{
 			socket_flag = false;
-			if ((ret = open_pcap_file(&pcap_fd, param.pcap_file)) == false)
+			if ((ret = open_pcap_file(&pcap_fd, param.pcap_file)) == false){
+				ROS_ERROR("Failed open_pcap_file");				
 				exit(1);
+			}	
 		}
 
 		main_loop_ = boost::thread(&IchthusLidarFront::extMsg, this);
