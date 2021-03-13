@@ -132,16 +132,12 @@ namespace ichthus_lidar_front
 			else if (!unknown_lidar && param.mode[mode_index] == LIDAR_MODE::OSI64_MODE)
 			{
 				ROS_INFO("%s\t%d", param.ip_addr[i].c_str(), ip_pkt.size);
-				// std::cout << "socket_FLAG : " << socket_flag << std::endl;
 				OSI64::get_OSI64_msg(socket_flag, ip_pkt, OSI_msg, frag_offset);
-
-				// std::cout << "socket_flag : " << socket_flag << std::endl;
 
 				if (OSI_msg.size == OSI64_MESSAGE_BYTES)
 				{
 					npub++;
 					pub_lidar_data[mode_index].publish(OSI_msg);
-					// std::cout << "socket flag True" << std::endl;	// jhchoi
 					if (socket_flag == false)
 						ROS_INFO("[%u] lidar msg published...", npub);
 					nskip = 0;
